@@ -1,6 +1,18 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+async function getMovie(movie) {
+  const res = await fetch(
+    `${process.env.API_LINK}/movie/${movie}?api_key=${process.env.API_KEY}`
+  )
+  return res.json()
+}
+
+export async function generateMetadata({ params }) {
+  const movie = await getMovie(params.movie)
+  return { title: `${movie.title} - Popular Movei List` }
+}
+
 export async function generateStaticParams() {
   const data = await fetch(
     `${process.env.API_LINK}/movie/popular?api_key=${process.env.API_KEY}`
@@ -15,10 +27,8 @@ export async function generateStaticParams() {
 
 export default async function MovieDetail({ params }) {
   const { movie } = params
-  const data = await fetch(
-    `${process.env.API_LINK}/movie/${movie}?api_key=${process.env.API_KEY}`
-  )
-  const res = await data.json()
+
+  const res = await getMovie(movie)
 
   return (
     <>

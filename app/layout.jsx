@@ -7,6 +7,10 @@ const montserrat = Montserrat({
   variable: '--font-montserrat',
 })
 
+export const metadata = {
+  title: 'Popular Movie List',
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
